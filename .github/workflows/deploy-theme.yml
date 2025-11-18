@@ -1,0 +1,30 @@
+name: Theme deploy
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli
+
+      - name: Upload theme
+        run: |
+          shopify theme push \
+            --json \
+            --ignore config/settings_data.json templates/*.json sections/*.json \
+            --theme ${{ secrets.SHOPIFY_FLAG_THEME_ID }} \
+            --store ${{ secrets.SHOPIFY_FLAG_STORE }} \
+            --password ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }} \
+            --allow-live
+
