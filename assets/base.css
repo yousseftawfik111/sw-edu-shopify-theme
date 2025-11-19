@@ -266,6 +266,9 @@ html.no-js .no-js-hidden {
   .header.page-width {
     padding-left: 3.2rem;
     padding-right: 3.2rem;
+  }
+
+  .rtl .header.page-width {
     direction: rtl;
   }
 
