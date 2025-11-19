@@ -38,6 +38,13 @@
           "type": "price",
           "settings": {}
         },
+        "text_YUfQzY": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.shopify.material | metafield_text: field: 'label' }}",
+            "text_style": "body"
+          }
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -63,6 +70,7 @@
         "variant_picker",
         "quantity_selector",
         "price",
+        "text_YUfQzY",
         "buy_buttons",
         "description",
         "share"
