@@ -1,0 +1,4 @@
+.add-to-cart-btn button:disabled {
+    z-index: 1;
+    cursor: not-allowed;
+}
