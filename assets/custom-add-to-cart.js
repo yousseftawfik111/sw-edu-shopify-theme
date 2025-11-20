@@ -153,6 +153,15 @@
     const forms = document.querySelectorAll(SELECTORS.FORM);
     
     forms.forEach(form => {
+      const submitButton = form.querySelector(SELECTORS.SUBMIT_BUTTON);
+      
+      if (submitButton && !submitButton.style.getPropertyValue('--button-width')) {
+        const currentWidth = submitButton.offsetWidth;
+        const currentHeight = submitButton.offsetHeight;
+        submitButton.style.setProperty('--button-width', `${currentWidth}px`);
+        submitButton.style.setProperty('--button-height', `${currentHeight}px`);
+      }
+      
       const submitHandler = (e) => {
         e.preventDefault();
         handleAddToCart(form);
