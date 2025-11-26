@@ -1,0 +1,40 @@
+<h2>{{ section.settings.heading }}</h2>
+
+{% for block in section.blocks %}
+    <h3>{{ block.settings.question }}</h3>
+    <div>{{ block.settings.answer }}</div>
+{% endfor %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Header",
+      "default": "<h2>Frequently Asked Questions</h2>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
