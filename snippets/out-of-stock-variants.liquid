@@ -1,0 +1,50 @@
+{%- if product.variants.size > 1 -%}
+  {%- liquid
+    assign has_out_of_stock = false
+    for variant in product.variants
+      unless variant.available
+        assign has_out_of_stock = true
+        break
+      endunless
+    endfor
+  -%}
+
+  {%- if has_out_of_stock -%}
+    {%- for option in product.options_with_values -%}
+        {%- liquid
+            assign out_of_stock_values = ''
+            assign out_of_stock_count = 0
+        -%}
+
+        {%- for value in option.values -%}
+            {%- liquid
+                assign option_key = 'option' | append: forloop.parentloop.index
+                assign matching_variants = product.variants | where: option_key, value
+                assign available_variants = matching_variants | where: 'available', true
+            -%}
+
+            {%- if available_variants.size == 0 -%}
+                {%- liquid
+                    if out_of_stock_count > 0
+                        assign out_of_stock_values = out_of_stock_values | append: '|'
+                    endif
+                    assign out_of_stock_values = out_of_stock_values | append: value
+                    assign out_of_stock_count = out_of_stock_count | plus: 1
+                -%}
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- if out_of_stock_count > 0 -%}
+            {%- assign split_values = out_of_stock_values | split: '|' -%}
+            <div>
+                <p>Out of stock {{ option.name | capitalize }}:</p>
+                <ul>
+                    {%- for value in split_values -%}
+                      <li>{{ value }}</li>
+                    {%- endfor -%}
+                </ul>
+            </div>
+        {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
