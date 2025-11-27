@@ -1,25 +1,27 @@
-{{ 'faq-section.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'faq-section.js' | asset_url }}" defer="defer"></script>
+{% if section.blocks.size > 0 %}
+  {{ 'faq-section.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'faq-section.js' | asset_url }}" defer="defer"></script>
 
-<div class="faq-section">
-    <div class="faq-container">
-        {{ section.settings.heading }}
+  <div class="faq-section">
+      <div class="faq-container">
+          {{ section.settings.heading }}
 
-        {% for block in section.blocks %}
-            <div class="faq-item" {{ block.shopify_attributes }}>
-                <button class="faq-question" aria-expanded="false" type="button">
-                    <span>{{ block.settings.question }}</span>
-                    <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">{{ block.settings.answer }}</div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
+          {% for block in section.blocks %}
+              <div class="faq-item" {{ block.shopify_attributes }}>
+                  <button class="faq-question" aria-expanded="false" type="button">
+                      <span>{{ block.settings.question }}</span>
+                      <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </button>
+                  <div class="faq-answer">
+                      <div class="faq-answer-content">{{ block.settings.answer }}</div>
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+{% endif %}
 
 {% schema %}
 {
