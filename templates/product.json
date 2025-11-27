@@ -90,29 +90,55 @@
         "padding_bottom": 0
       }
     },
-    "faq_RdDQRz": {
+    "faq_k8wyjg": {
       "type": "faq",
       "blocks": {
-        "faq_item_Jw3jf8": {
+        "faq_item_p87gpR": {
           "type": "faq_item",
           "settings": {
-            "question": "Frequently Asked Question 1",
-            "answer": "<p>Frequently Asked Question 1 <strong>Answer</strong></p>"
+            "question": "Question Example 1",
+            "answer": "<p>Answer <strong>Example 1</strong></p>"
           }
         },
-        "faq_item_DPmMEh": {
+        "faq_item_bA7Fgz": {
           "type": "faq_item",
           "settings": {
-            "question": "Frequently Asked Question 2",
-            "answer": "<p>Frequently Asked Question 2 <strong>Answer</strong></p>"
+            "question": "Question Example 2",
+            "answer": "<p>Answer <strong>Example 2</strong></p>"
           }
         }
       },
       "block_order": [
-        "faq_item_Jw3jf8",
-        "faq_item_DPmMEh"
+        "faq_item_p87gpR",
+        "faq_item_bA7Fgz"
       ],
-      "custom_css": [],
+      "name": "FAQ",
+      "settings": {
+        "heading": "<h2>Frequently Asked Questions</h2>"
+      }
+    },
+    "faq_FaKJyE": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_CjgRLD": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question Example 1",
+            "answer": "<p>Answer <strong>Example 1</strong></p>"
+          }
+        },
+        "faq_item_Hh4xKe": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question Example 2",
+            "answer": "<p>Answer <strong>Example 2</strong></p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_CjgRLD",
+        "faq_item_Hh4xKe"
+      ],
       "name": "FAQ",
       "settings": {
         "heading": "<h2>Frequently Asked Questions</h2>"
@@ -138,7 +164,8 @@
   },
   "order": [
     "main",
-    "faq_RdDQRz",
+    "faq_k8wyjg",
+    "faq_FaKJyE",
     "related-products"
   ]
 }
