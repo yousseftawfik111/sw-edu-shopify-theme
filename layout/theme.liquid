@@ -301,6 +301,10 @@
         pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
         playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
       };
+
+      window.Shopify = window.Shopify || {};
+      window.Shopify.storefrontAccessToken = '739da39ab83e7a3f98cc531a5ce6c669';
+      window.Shopify.shop = '{{ shop.permanent_domain }}';
     </script>
 
     {%- if settings.predictive_search_enabled -%}
