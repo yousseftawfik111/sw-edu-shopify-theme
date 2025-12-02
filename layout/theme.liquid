@@ -1,5 +1,12 @@
+{% liquid 
+  assign locale_parts = request.locale.iso_code | split: '-'
+  assign is_arabic = false
+  if locale_parts.first == 'ar'
+    assign is_arabic = true
+  endif
+ %}
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js{% if is_arabic %} rtl{% endif %}" lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -294,6 +301,10 @@
         pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
         playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
       };
+
+      window.Shopify = window.Shopify || {};
+      window.Shopify.storefrontAccessToken = '739da39ab83e7a3f98cc531a5ce6c669';
+      window.Shopify.shop = '{{ shop.permanent_domain }}';
     </script>
 
     {%- if settings.predictive_search_enabled -%}
