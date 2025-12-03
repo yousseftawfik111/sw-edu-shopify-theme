@@ -1,0 +1,398 @@
+{%- liquid
+  assign has_media = false
+  if section.settings.media_type == 'image' and section.settings.image != blank
+    assign has_media = true
+  elsif section.settings.media_type == 'video' and section.settings.video_url != blank
+    assign has_media = true
+  endif
+-%}
+
+{%- if has_media -%}
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {%- if section.settings.show_overlay -%}
+    #HeroBanner-{{ section.id }}::after {
+      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    }
+  {%- endif -%}
+
+  #HeroBanner-{{ section.id }} .hero-banner__box {
+    {%- if section.settings.show_content_box -%}
+      {%- if section.settings.box_color == 'black' -%}
+        background-color: rgba(12, 12, 12, {{ section.settings.box_opacity | divided_by: 100.0 }});
+      {%- else -%}
+        background-color: rgba(255, 255, 255, {{ section.settings.box_opacity | divided_by: 100.0 }});
+      {%- endif -%}
+    {%- else -%}
+      background-color: transparent;
+    {%- endif -%}
+  }
+
+  #HeroBanner-{{ section.id }} .hero-banner__heading,
+  #HeroBanner-{{ section.id }} .hero-banner__text {
+    color: {{ section.settings.text_color }};
+    {%- if section.settings.text_shadow -%}
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    {%- endif -%}
+  }
+
+  #HeroBanner-{{ section.id }} .hero-banner__cta {
+    color: {{ section.settings.cta_text_color }};
+    border-color: {{ section.settings.cta_border_color }};
+  }
+
+  #HeroBanner-{{ section.id }} .hero-banner__cta:hover {
+    {%- if section.settings.cta_border_color == '#0C0C0C' -%}
+      background-color: rgba(12, 12, 12, 0.1);
+    {%- else -%}
+      background-color: rgba(255, 255, 255, 0.1);
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div
+  id="HeroBanner-{{ section.id }}"
+  class="hero-banner hero-banner--align-{{ section.settings.content_alignment }}{% if section.settings.show_overlay %} hero-banner--overlay{% endif %}"
+>
+  {%- comment -%} Media: Image or Video {%- endcomment -%}
+  <div class="hero-banner__media">
+    {%- if section.settings.media_type == 'video' and section.settings.video_url != blank -%}
+      {%- liquid
+        assign video_id = section.settings.video_url.id
+        assign video_type = section.settings.video_url.type
+      -%}
+      <div class="hero-banner__video-wrapper">
+        {%- if video_type == 'youtube' -%}
+          <iframe
+            class="hero-banner__video"
+            src="https://www.youtube-nocookie.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0&start=0"
+            title="{{ section.settings.video_alt | escape }}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
+        {%- elsif video_type == 'vimeo' -%}
+          <iframe
+            class="hero-banner__video"
+            src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&muted=1&loop=1&background=1&autopause=0"
+            title="{{ section.settings.video_alt | escape }}"
+            loading="lazy"
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        {%- endif -%}
+      </div>
+    {%- elsif section.settings.image != blank -%}
+      {%- liquid
+        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+      -%}
+      {{
+        section.settings.image
+        | image_url: width: 3840
+        | image_tag:
+          loading: 'lazy',
+          width: section.settings.image.width,
+          height: image_height,
+          class: 'hero-banner__image',
+          sizes: '100vw',
+          widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+      }}
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Content Box - only show if there are blocks {%- endcomment -%}
+  {%- if section.blocks.size > 0 -%}
+    <div class="hero-banner__content">
+      <div class="hero-banner__box">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              {%- if block.settings.heading != blank -%}
+                <div class="hero-banner__heading" {{ block.shopify_attributes }}>
+                  {{ block.settings.heading }}
+                </div>
+              {%- endif -%}
+
+            {%- when 'text' -%}
+              {%- if block.settings.text != blank -%}
+                <div class="hero-banner__text" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+
+            {%- when 'button' -%}
+              {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                <a
+                  href="{{ block.settings.button_link }}"
+                  class="hero-banner__cta"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ block.settings.button_label | escape }}
+                </a>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media Type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings",
+      "info": "Used when Media Type is set to Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "header",
+      "content": "Video Settings",
+      "info": "Used when Media Type is set to Video"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "label": "Video URL",
+      "info": "Paste a YouTube or Vimeo link (e.g. https://www.youtube.com/watch?v=VIDEO_ID)"
+    },
+    {
+      "type": "text",
+      "id": "video_alt",
+      "label": "Video Description",
+      "info": "Describes the video for accessibility"
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show Dark Overlay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Content Alignment"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Content Box Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_content_box",
+      "label": "Show Content Box",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "box_color",
+      "label": "Box Color",
+      "options": [
+        {
+          "value": "black",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        }
+      ],
+      "default": "black"
+    },
+    {
+      "type": "range",
+      "id": "box_opacity",
+      "label": "Box Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text Color",
+      "options": [
+        {
+          "value": "#0C0C0C",
+          "label": "Black"
+        },
+        {
+          "value": "#FFFFFF",
+          "label": "White"
+        }
+      ],
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_shadow",
+      "label": "Add Text Shadow",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "CTA Button Settings"
+    },
+    {
+      "type": "select",
+      "id": "cta_text_color",
+      "label": "CTA Text Color",
+      "options": [
+        {
+          "value": "#0C0C0C",
+          "label": "Black"
+        },
+        {
+          "value": "#FFFFFF",
+          "label": "White"
+        }
+      ],
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "select",
+      "id": "cta_border_color",
+      "label": "CTA Border Color",
+      "options": [
+        {
+          "value": "#0C0C0C",
+          "label": "Black"
+        },
+        {
+          "value": "#FFFFFF",
+          "label": "White"
+        }
+      ],
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "<p><em>FALL / WINTER 2021</em></p>"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Our new collection is an ode to purity, fluidity and nature. We are inspired by the mountains, by the warmth of the earth and soft lines drawn by the wind in the sky.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "SHOP NOW"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

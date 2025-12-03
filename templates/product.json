@@ -38,6 +38,13 @@
           "type": "price",
           "settings": {}
         },
+        "text_YUfQzY": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.shopify.material | metafield_text: field: 'label' }}",
+            "text_style": "body"
+          }
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -63,6 +70,7 @@
         "variant_picker",
         "quantity_selector",
         "price",
+        "text_YUfQzY",
         "buy_buttons",
         "description",
         "share"
@@ -80,6 +88,33 @@
         "enable_video_looping": false,
         "padding_top": 64,
         "padding_bottom": 0
+      }
+    },
+    "faq_k8wyjg": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_p87gpR": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question Example 1",
+            "answer": "<p>Answer <strong>Example 1</strong></p>"
+          }
+        },
+        "faq_item_bA7Fgz": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Question Example 2",
+            "answer": "<p>Answer <strong>Example 2</strong></p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_p87gpR",
+        "faq_item_bA7Fgz"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "heading": "<h2>Frequently Asked Questions</h2>"
       }
     },
     "related-products": {
@@ -102,6 +137,7 @@
   },
   "order": [
     "main",
+    "faq_k8wyjg",
     "related-products"
   ]
 }
