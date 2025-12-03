@@ -9,6 +9,60 @@
  */
 {
   "sections": {
+    "hero_banner_wT7BQj": {
+      "type": "hero-banner",
+      "blocks": {
+        "heading_Bwc4h7": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p><em>FALL / WINTER 2021</em></p>"
+          }
+        },
+        "text_pJzDEH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our new collection is an ode to purity, fluidity and nature. We are inspired by the mountains, by the warmth of the earth and soft lines drawn by the wind in the sky.</p>"
+          }
+        },
+        "button_zgKPiJ": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP NOW",
+            "button_link": "shopify://collections"
+          }
+        },
+        "button_Lzhe8H": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP CUSTOM",
+            "button_link": "shopify://products/custom-product"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Bwc4h7",
+        "text_pJzDEH",
+        "button_zgKPiJ",
+        "button_Lzhe8H"
+      ],
+      "name": "Hero Banner",
+      "settings": {
+        "media_type": "image",
+        "image": "shopify://shop_images/business-people-walking-in-city.jpg",
+        "video_url": "",
+        "video_alt": "",
+        "show_overlay": true,
+        "overlay_opacity": 30,
+        "content_alignment": "center",
+        "show_content_box": true,
+        "box_color": "black",
+        "box_opacity": 80,
+        "text_color": "#FFFFFF",
+        "text_shadow": false,
+        "cta_text_color": "#FFFFFF",
+        "cta_border_color": "#FFFFFF"
+      }
+    },
     "6a3bb789-ce10-45f5-ae67-e2063ef8c76b": {
       "type": "image-banner",
       "blocks": {
@@ -165,6 +219,7 @@
     }
   },
   "order": [
+    "hero_banner_wT7BQj",
     "6a3bb789-ce10-45f5-ae67-e2063ef8c76b",
     "featured_collection",
     "f1552b18-6017-4231-810d-74e61da22c37",
